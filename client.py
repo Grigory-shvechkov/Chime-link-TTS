@@ -3,8 +3,8 @@ import sys
 import time
 
 # Paths to your scripts
-FLASK_SCRIPT = "./webserver.py"      # Your Flask server
-NODE_SCRIPT = "discordBot.js"       # Your Node bot
+FLASK_SCRIPT = "WebServer/webserver.py" # Your Flask server
+NODE_SCRIPT = "DiscordBot/index.js" # Your Node bot
 
 # Start Flask server
 flask_process = subprocess.Popen([sys.executable, FLASK_SCRIPT])
