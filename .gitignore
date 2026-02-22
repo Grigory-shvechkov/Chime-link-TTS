@@ -1,6 +1,8 @@
 venv
+.venv
 README.md
 .env
 node_modules/
 package-lock.json
 package.json
+commandRegister.json
