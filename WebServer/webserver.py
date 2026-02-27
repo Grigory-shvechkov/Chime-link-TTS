@@ -5,13 +5,15 @@ from threading import Thread
 import os
 
 app = Flask(__name__)
+dir_path = os.path.dirname(os.path.realpath(__file__))
 
 # Function to play audio in a separate thread
 def play_audio(file_name):
-    playsound(file_name)
-    # Optional: delete file after playing
-    if os.path.exists(file_name):
-        os.remove(file_name)
+    if os.path.exists(dir_path + "/" + file_name):
+        playsound(dir_path + "/" + file_name)
+        os.remove(dir_path + "/" + file_name)
+   
+       
 
 @app.route('/TTS', methods=['POST'])
 def TTS():
@@ -25,7 +27,7 @@ def TTS():
     
     # Generate TTS audio
     tts = gTTS(text=text, lang='en')
-    tts.save(file_name)
+    tts.save(dir_path + "/" + file_name)
 
     # Play audio in background
     Thread(target=play_audio, args=(file_name,)).start()
@@ -36,7 +38,10 @@ def TTS():
 @app.route("/RING", methods=["POST"])  # Must be POST
 def ring_endpoint():
     file_name = 'ring.mp3'
-    Thread(target=playsound, args=(file_name,)).start()
+    if os.path.exists(dir_path + "/" + file_name):
+        Thread(target=playsound, args=(dir_path + "/" + file_name,)).start()
+    else:
+        print(dir_path + "/" + file_name, "Not Found!")
     return jsonify({"status": "ringing"})
 
 
